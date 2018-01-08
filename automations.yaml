@@ -1,0 +1,46 @@
+- action:
+  - data:
+      entity_id: switch.livingroom_light
+    service: switch.turn_on
+  alias: Turn on living room light at sunset
+  condition: []
+  id: '1514568323355'
+  trigger:
+  - event: sunset
+    platform: sun
+- action:
+  - data:
+      entity_id: switch.livingroom_light
+    service: switch.turn_off
+  alias: Turn the living room light off at bed time
+  condition: []
+  id: '1514568514450'
+  trigger:
+  - at: '23:00'
+    platform: time
+- action:
+  - data:
+      entity_id: sensor.next_train_to_rdg
+      notify_target: tom_slack
+      window_start: '17:00'
+      window_end: '17:45'
+    service: python_script.trains_status
+  alias: Evening Train Status
+  condition: []
+  id: '1514649388511'
+  trigger:
+  - at: '16:30'
+    platform: time
+- action:
+  - data:
+      entity_id: sensor.next_train_to_bsk
+      notify_target: tom_slack
+      window_start: 08:00
+      window_end: 08:30
+    service: python_script.trains_status
+  alias: Morning Train Status
+  condition: []
+  id: '1514667558798'
+  trigger:
+  - at: 07:30
+    platform: time
