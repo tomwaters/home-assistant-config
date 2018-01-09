@@ -44,3 +44,39 @@
   trigger:
   - at: 07:30
     platform: time
+- action:
+  - data:
+      entity_id: sensor.next_train_to_bsk
+      late_only: 'True'
+      notify_target: tom_slack
+      throttle_mins: '1'
+      window_end: 08:30
+      window_start: 08:00
+    service: python_script.trains_status
+  alias: Morning Late Trains
+  condition:
+  - after: 07:30
+    before: 08:30
+    condition: time
+  id: '1515535299320'
+  trigger:
+  - entity_id: sensor.next_train_to_bsk
+    platform: state
+- action:
+  - data:
+      entity_id: sensor.next_train_to_rdg
+      late_only: 'True'
+      notify_target: tom_slack
+      throttle_mins: '1'
+      window_end: '17:45'
+      window_start: '17:00'
+    service: python_script.trains_status
+  alias: Evening Late Trains
+  condition:
+  - after: '16:30'
+    before: '17:45'
+    condition: time
+  id: '1515535553005'
+  trigger:
+  - entity_id: sensor.next_train_to_rdg
+    platform: state
