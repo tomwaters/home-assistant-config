@@ -22,8 +22,12 @@ for train in attributes['next_trains']:
                 train['status']
             )
 
-response = response or 'No trains within window'
-last_sent = hass.states.get('trains_status.last_sent').state or 0
-if time.time() > float(last_sent) + (float(throttle_mins) * 60):
-    hass.services.call('notify', notify_target, {'message': response})
-    hass.states.set('trains_status.last_sent', time.time())
+if late_only != True or response != '':
+    response = response or 'No trains within window'
+    last_sent = hass.states.get('trains_status.last_sent').state or 0
+    if time.time() > float(last_sent) + (float(throttle_mins) * 60):
+        hass.services.call(
+            'notify',
+            notify_target,
+            {'title': 'Train Status Update', 'message': response})
+        hass.states.set('trains_status.last_sent', time.time())
